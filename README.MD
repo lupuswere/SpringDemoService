@@ -19,6 +19,7 @@ Hope this could help with those who are new to Java based web services and relat
 5. Use Spring Autowire
 6. Variable in REST Path
 7. Enhance ObjectMapper
+8. Add log
 
 ## Features
 
@@ -219,3 +220,18 @@ ObjectMapper objectMapper() {
             .registerModule(new GuavaModule());
 }
 ```
+
+#### 8. Add log
+
+*Added Oct 17, 2020*
+
+##### Steps
+
+1. We need to add Lombok as our dependency which we have done in 4.
+2. Annotate your class with `@Slf4j`.
+
+##### Verification
+
+1. Add `log.info("something")` or `log.error("something)` in your business logic.
+2. Start up your application using `mvn mvn spring-boot:run` command.
+3. You should see your logs printing in your console.
