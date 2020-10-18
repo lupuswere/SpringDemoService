@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.lilifei.SpringDemoService.model.Record;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CRUDController {
 
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    public CRUDController(final ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
     @RequestMapping(value = "/api/records", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRecords() {
         final Record record = Record.builder()
-                .key("foo")
-                .value("bar")
+                .someProperty("foobar")
                 .build();
-        final ObjectMapper objectMapper = new ObjectMapper();
         final String response;
         try {
             response = objectMapper.writeValueAsString(record);

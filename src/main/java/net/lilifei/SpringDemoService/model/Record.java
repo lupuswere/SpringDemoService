@@ -7,7 +7,5 @@ import lombok.Data;
 @Builder
 public class Record {
 
-    private String key;
-
-    private String value;
+    private String someProperty;
 }

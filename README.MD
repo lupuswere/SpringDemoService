@@ -129,3 +129,21 @@ The combination of these two libraries will make it much easier for us to proces
 5. Create some properties on it. They will be the JSON properties too.
 6. Initialize `ObjectMapper` locally. Call `writeValueAsString()` on it to write an the model to a JSON String.
 7. Return it as a response.
+
+#### 5. Use Spring Autowire
+
+*Added Oct 17, 2020*
+
+In previous update, we are creating an `ObjectMapper` everytime there is a new request, which is not scalable. We should take advantage of the Spring autowire mechanism make it reusable. 
+
+There are two sides/steps of this mechanism:
+* First, you need to create your class to be used. In Spring, we register it as a "Bean".
+* Then, you need to tell Spring that you would like to pull it out from the registry, and use it. It is called "Autowire". 
+
+##### Steps
+
+1. We will need a class that takes responsibility of Bean creation. Create a new class. You can name it whatever you want. The naming doesn't matter.
+2. Annotate it with `@Configuration`. Now Spring will automatically look into it during start up for Beans.
+3. Create a method that takes care of your utility class initialization. The return value should be your class type. e.g. In our case, it is `ObjectMapper`.
+4. Annotate it with `@Bean`.
+5. In another class that uses it, e.g. `CRUDController` in our case, you can either annotate your class property `ObjectMapper` with `@Autowired`, or annotate your class constructor with `@Autowired`.
