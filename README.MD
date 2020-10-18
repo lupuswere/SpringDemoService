@@ -10,6 +10,16 @@ Hope this could help with those who are new to Java based web services and relat
 * Maven
 * Spring Boot 2.3.4
 
+## Table of Contents
+
+1. Spring Boot
+2. GET a String response
+3. GET a JSON response
+4. Introduce ObjectMapper and Lombok
+5. Use Spring Autowire
+6. Variable in REST Path
+7. Enhance ObjectMapper
+
 ## Features
 
 #### 1. Spring Boot 
