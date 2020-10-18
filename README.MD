@@ -21,6 +21,7 @@ Hope this could help with those who are new to Java based web services and relat
 7. Enhance ObjectMapper
 8. Add log
 9. POST
+10. Parsing POST body
 
 ## Features
 
@@ -249,3 +250,65 @@ ObjectMapper objectMapper() {
 4. You can also specify `consumes` as `MediaType.APPLICATION_JSON_VALUE` to avoid request body types other than JSON.
 5. Now you want to get the body of the request. Add an argument to the method. Naming can be whatever you want.
 6. Annotate it with `@RequestBody`.
+
+#### 10. Parsing POST body
+
+*Added Oct 17, 2020*
+
+With step 9., you can now deserialize the request body in any way you want. However you can also make use of Spring to deserialize it, and Spring will try its best to deserilize the JSON body.
+
+##### Steps
+
+1. You just need to change your request body type to a strongly typed object. The object doesn't have to be decorated with anything. For example:
+
+```java
+public class CreateRecordRequest {
+
+    public String someProperty;
+}
+```
+
+2. Now you can also specify your own deserializer. You just need to annotate the constructor with `@JsonCreator` and the property with `@JsonProperty("propertyName").` Like following:
+
+```java
+public class CreateRecordRequest {
+
+    private String someProperty;
+
+    @JsonCreator
+    public CreateRecordRequest(@JsonProperty("property") final String property) {
+        this.someProperty = property;
+    }
+}
+```
+
+Now you can POST to Spring with property name with a body who has a field named `property` instead of `someProperty`.
+
+But interestingly, Spring can also override `someProperty`, if both conditions are met:
+* There is also a field named `someProperty`.
+* Your field is public.
+
+In other words, if your model is like following:
+
+```java
+public class CreateRecordRequest {
+
+    public String someProperty;
+
+    @JsonCreator
+    public CreateRecordRequest(@JsonProperty("property") final String property) {
+        this.someProperty = property;
+    }
+}
+``` 
+
+And your request body is:
+
+```json
+{
+    "property": "1",
+    "someProperty": "2"
+}
+```
+
+Your `someProperty` value in Java will be 2 even if you specified a customized deserializer.

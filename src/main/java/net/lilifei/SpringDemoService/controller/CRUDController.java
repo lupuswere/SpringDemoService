@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
+import net.lilifei.SpringDemoService.model.CreateRecordRequest;
 import net.lilifei.SpringDemoService.model.Record;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +48,8 @@ public class CRUDController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<?> createRecord(@RequestBody final String requestBody) {
-        log.info(requestBody);
+    public ResponseEntity<?> createRecord(@RequestBody final CreateRecordRequest createRecordRequest) {
+        log.info("{}", createRecordRequest.toString());
         return new ResponseEntity<>("{}", HttpStatus.OK);
     }
 
