@@ -26,13 +26,13 @@ public class CRUDController {
     @RequestMapping(value = "/api/records", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRecords() {
         // Response can be anything as long as it is a String.
-        final String response = getResponseJsonString();
+        final String response = getResponseJsonString("foobar");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    private String getResponseJsonString() {
+    private String getResponseJsonString(final String value) {
         final Record record = Record.builder()
-                .someProperty("foobar")
+                .someProperty(value)
                 .build();
         final String response;
         try {
