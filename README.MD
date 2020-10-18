@@ -188,3 +188,24 @@ There are two sides/steps of this mechanism:
     <version>2.11.0</version>
 </dependency>
 ``` 
+
+2. Configure your `ObjectMapper` like following:
+
+```java
+@Bean
+ObjectMapper objectMapper() {
+    return new ObjectMapper()
+            // Only include non null fields during serialization
+            .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+            // Don't write Date as timestamp String
+            .configure(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS, false)
+            // Don't fail if there is unrecognized field in JSON during deserialization
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            // Support JDK 8
+            .registerModule(new Jdk8Module())
+            // Support Java time
+            .registerModule(new JavaTimeModule())
+            // Support Google Guava
+            .registerModule(new GuavaModule());
+}
+```
