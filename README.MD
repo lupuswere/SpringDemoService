@@ -94,3 +94,38 @@ $ mvn spring-boot:run
 ```
 
 2. Go to your browser and type in http://localhost:8080/yourPath. You should see `{}`.
+
+#### 4. Introduce ObjectMapper and Lombok
+
+*Added Oct 17, 2020*
+
+* `ObjectMapper` is used for managing JSON serialization and deserialization, which is essential for modern web applications.
+* [Lombok](https://projectlombok.org/) is a project that simplifies creation of getters, setters, toString, etc.
+
+The combination of these two libraries will make it much easier for us to process JSON inputs and outputs.
+
+1. Added following to `pom.xml`.
+
+```xml
+<dependency>
+	<groupId>org.projectlombok</groupId>
+	<artifactId>lombok</artifactId>
+	<version>1.18.10</version>
+	<scope>provided</scope>
+</dependency>
+```
+```xml
+<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-core</artifactId>
+    <version>2.11.0</version>
+</dependency> 
+```
+
+2. Create a model class. In our case, we are calling it `Record`.
+3. Annotate this class with `@Data` to have default serializer, setter, getter.
+4. Annotate this class with `@Builder` to make it easier to instantiate.
+5. Create some properties on it. They will be the JSON properties too.
+6. Initialize `ObjectMapper` locally. Call `writeValueAsString()` on it to write an the model to a JSON String.
+7. Return it as a response.

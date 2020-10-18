@@ -1,5 +1,10 @@
 package net.lilifei.SpringDemoService.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import net.lilifei.SpringDemoService.model.Record;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +17,18 @@ public class CRUDController {
 
     @RequestMapping(value = "/api/records", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRecords() {
-        return new ResponseEntity<>("{\"key\": \"foo\", \"value\":\"bar\"}", HttpStatus.OK);
+        final Record record = Record.builder()
+                .key("foo")
+                .value("bar")
+                .build();
+        final ObjectMapper objectMapper = new ObjectMapper();
+        final String response;
+        try {
+            response = objectMapper.writeValueAsString(record);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
