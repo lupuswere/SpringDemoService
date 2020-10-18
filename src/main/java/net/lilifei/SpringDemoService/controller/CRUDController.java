@@ -25,6 +25,12 @@ public class CRUDController {
 
     @RequestMapping(value = "/api/records", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRecords() {
+        // Response can be anything as long as it is a String.
+        final String response = getResponseJsonString();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    private String getResponseJsonString() {
         final Record record = Record.builder()
                 .someProperty("foobar")
                 .build();
@@ -32,9 +38,8 @@ public class CRUDController {
         try {
             response = objectMapper.writeValueAsString(record);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return response;
     }
 }
