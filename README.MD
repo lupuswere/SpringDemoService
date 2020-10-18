@@ -10,8 +10,21 @@ Hope this could help with those who are new to Java based web services and relat
 * Maven
 * Spring Boot 2.3.4
 
-## Version History
+## Features
 
-### 0.0.1
+#### Spring Boot 
 
-Oct 17, 2020: First commit with Spring Boot skeleton code. 
+*Added Oct 17, 2020*
+
+Go to https://start.spring.io/ and generate your skeleton code.
+
+#### GET a String response
+
+*Added Oct 17, 2020*
+
+1. Add `spring-boot-starter-web` as dependency.
+2. Create your controller class.
+3. Annotate your controller class with `@RestController`.
+4. Annotate your method with `@GetMapping`
+5. In `@GetMapping`, add your path: `@GetMapping("/yourPath")`.
+6. The method should return a `String`.
