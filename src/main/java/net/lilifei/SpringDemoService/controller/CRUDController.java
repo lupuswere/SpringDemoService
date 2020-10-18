@@ -26,14 +26,14 @@ public class CRUDController {
 
     @RequestMapping(value = "/api/records", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRecords() {
-        // Response can be anything as long as it is a String.
+        // Response can be anything as long as it is a JSON String.
         final String response = getResponseJsonString("foobar");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/api/records/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRecordById(@PathVariable("id") final String id) {
-        // Response can be anything as long as it is a String.
+        // Response can be anything as long as it is a JSON String.
         final String response = getResponseJsonString(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
