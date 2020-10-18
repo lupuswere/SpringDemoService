@@ -20,6 +20,7 @@ Hope this could help with those who are new to Java based web services and relat
 6. Variable in REST Path
 7. Enhance ObjectMapper
 8. Add log
+9. POST
 
 ## Features
 
@@ -235,3 +236,16 @@ ObjectMapper objectMapper() {
 1. Add `log.info("something")` or `log.error("something)` in your business logic.
 2. Start up your application using `mvn mvn spring-boot:run` command.
 3. You should see your logs printing in your console.
+
+#### 9. POST
+
+*Added Oct 17, 2020*
+
+##### Steps
+
+1. Create a method. Return value is `ResponseEntity<?>`.
+2. Annotate your method with `@RequestMapping`.
+3. For `method`, use `RequestMethod.POST`.
+4. You can also specify `consumes` as `MediaType.APPLICATION_JSON_VALUE` to avoid request body types other than JSON.
+5. Now you want to get the body of the request. Add an argument to the method. Naming can be whatever you want.
+6. Annotate it with `@RequestBody`.
