@@ -147,3 +147,13 @@ There are two sides/steps of this mechanism:
 3. Create a method that takes care of your utility class initialization. The return value should be your class type. e.g. In our case, it is `ObjectMapper`.
 4. Annotate it with `@Bean`.
 5. In another class that uses it, e.g. `CRUDController` in our case, you can either annotate your class property `ObjectMapper` with `@Autowired`, or annotate your class constructor with `@Autowired`.
+
+#### 6. Variable in REST Path
+
+*Added Oct 17, 2020*
+
+##### Steps
+
+1. Create a method like we did in 2. or 3. In the path, use `{variable}`. It can be any variable name.
+2. In your method, add an argument. The argument name can be anything you want.
+3. Annotate the argument with `@PathVariable("variable")`. Now the value you in the bracket has to be the same you use in the path. 

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,13 @@ public class CRUDController {
     public ResponseEntity<?> getRecords() {
         // Response can be anything as long as it is a String.
         final String response = getResponseJsonString("foobar");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/api/records/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getRecordById(@PathVariable("id") final String id) {
+        // Response can be anything as long as it is a String.
+        final String response = getResponseJsonString(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
