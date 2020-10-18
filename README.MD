@@ -12,7 +12,7 @@ Hope this could help with those who are new to Java based web services and relat
 
 ## Features
 
-#### Spring Boot 
+#### 1. Spring Boot 
 
 *Added Oct 17, 2020*
 
@@ -39,7 +39,7 @@ and you should see something like:
 [INFO] ------------------------------------------------------------------------
 ```
 
-#### GET a String response
+#### 2. GET a String response
 
 *Added Oct 17, 2020*
 
