@@ -156,4 +156,35 @@ There are two sides/steps of this mechanism:
 
 1. Create a method like we did in 2. or 3. In the path, use `{variable}`. It can be any variable name.
 2. In your method, add an argument. The argument name can be anything you want.
-3. Annotate the argument with `@PathVariable("variable")`. Now the value you in the bracket has to be the same you use in the path. 
+3. Annotate the argument with `@PathVariable("variable")`. Now the value you in the bracket has to be the same you use in the path.
+
+#### 7. Enhance ObjectMapper
+
+*Added Oct 17, 2020*
+
+`ObjectMapper` is highly configurable and can be enhanced/customized by adding customized configurations during initialization.
+
+##### Steps
+
+1. Add following into your `pom.xml`:
+
+```xml
+<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.11.0</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jdk8 -->
+<dependency>
+    <groupId>com.fasterxml.jackson.datatype</groupId>
+    <artifactId>jackson-datatype-jdk8</artifactId>
+    <version>2.11.0</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-guava -->
+<dependency>
+    <groupId>com.fasterxml.jackson.datatype</groupId>
+    <artifactId>jackson-datatype-guava</artifactId>
+    <version>2.11.0</version>
+</dependency>
+``` 
