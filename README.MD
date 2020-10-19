@@ -23,6 +23,7 @@ Hope this could help with those who are new to Java based web services and relat
 9. POST
 10. Parsing POST body
 11. Reading request header
+12. Reading request cookie
 
 ## Features
 
@@ -322,3 +323,13 @@ Your `someProperty` value in Java will be 2 even if you specified a customized d
 
 1. In a method that is annotated with `@RequestMapping` in a controller class annotated with `@RestController`, add an argument whose type is `HttpServletRequest`.
 2. Call `getHeader("headerName")` on `httpServletRequest`.
+
+#### 12. Reading request cookie
+
+*Added Oct 17, 2020*
+
+##### Steps
+
+1. In a method that is annotated with `@RequestMapping` in a controller class annotated with `@RestController`, add an argument whose type is `HttpServletRequest`.
+2. Call `getCookies()` on `httpServletRequest`. It will give you all the cookies.
+3. `Cookie` has all the APIs you need on it. Most frequently used is `getName` and `getValue`.
