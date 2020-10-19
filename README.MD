@@ -25,6 +25,7 @@ Hope this could help with those who are new to Java based web services and relat
 11. Reading request header
 12. Reading request cookie
 13. Writing cookies
+14. Return HTML pages
 
 ## Features
 
@@ -366,3 +367,16 @@ httpServletResponse.addCookie(cookie);
 ##### Verification
 
 Make a call to your api through browser, and then check cookie (you can use EditThisCookie extension for Chrome for example).
+
+#### 14. Return HTML pages
+
+*Added Oct 18, 2020*
+
+##### Steps
+
+1. Create an HTML page, under `src/main/resources/static`.
+2. Create a controller class.
+3. Annotate it with `@Controller`.
+4. Create a method that returns a `String`.
+5. Annotate it with necessary `@GetMapping` or `@RequestMapping`.
+6. Return the html file name. For example, the file name is `index.html`, you should return `"index.html"`. Do not leave out `html`. 
