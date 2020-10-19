@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 public class HeaderController {
 
     @RequestMapping(value = "/api/getWithHeader", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getRecords(final HttpServletRequest httpServletRequest) {
+    public ResponseEntity<?> getWithHeader(final HttpServletRequest httpServletRequest) {
         final String header = httpServletRequest.getHeader("X-DEMO");
         log.info("Header X-DEMO: {}", header);
         return new ResponseEntity<>("{}", HttpStatus.OK);
