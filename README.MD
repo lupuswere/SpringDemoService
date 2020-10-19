@@ -22,6 +22,7 @@ Hope this could help with those who are new to Java based web services and relat
 8. Add log
 9. POST
 10. Parsing POST body
+11. Reading request header
 
 ## Features
 
@@ -312,3 +313,12 @@ And your request body is:
 ```
 
 Your `someProperty` value in Java will be 2 even if you specified a customized deserializer.
+
+#### 11. Reading request header
+
+*Added Oct 17, 2020*
+
+##### Steps
+
+1. In a method that is annotated with `@RequestMapping` in a controller class annotated with `@RestController`, add an argument whose type is `HttpServletRequest`.
+2. Call `getHeader("headerName")` on `httpServletRequest`.
