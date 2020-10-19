@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @Slf4j
@@ -19,6 +20,18 @@ public class CookieController {
     public ResponseEntity<?> getWithCookie(final HttpServletRequest httpServletRequest) {
         final Cookie[] cookies = httpServletRequest.getCookies();
         printCookies(cookies);
+        return new ResponseEntity<>("{}", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/api/writeCookie", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> writeCookie(final HttpServletRequest httpServletRequest,
+                                         final HttpServletResponse httpServletResponse) {
+        final Cookie cookie = new Cookie("DEMO", "helloworld!");
+        cookie.setMaxAge(60 * 60 * 24 * 365 * 10);
+        cookie.setSecure(false);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        httpServletResponse.addCookie(cookie);
         return new ResponseEntity<>("{}", HttpStatus.OK);
     }
 

@@ -24,6 +24,7 @@ Hope this could help with those who are new to Java based web services and relat
 10. Parsing POST body
 11. Reading request header
 12. Reading request cookie
+13. Writing cookies
 
 ## Features
 
@@ -317,7 +318,7 @@ Your `someProperty` value in Java will be 2 even if you specified a customized d
 
 #### 11. Reading request header
 
-*Added Oct 17, 2020*
+*Added Oct 18, 2020*
 
 ##### Steps
 
@@ -326,10 +327,42 @@ Your `someProperty` value in Java will be 2 even if you specified a customized d
 
 #### 12. Reading request cookie
 
-*Added Oct 17, 2020*
+*Added Oct 18, 2020*
 
 ##### Steps
 
 1. In a method that is annotated with `@RequestMapping` in a controller class annotated with `@RestController`, add an argument whose type is `HttpServletRequest`.
 2. Call `getCookies()` on `httpServletRequest`. It will give you all the cookies.
 3. `Cookie` has all the APIs you need on it. Most frequently used is `getName` and `getValue`.
+
+#### 13. Writing cookies
+
+*Added Oct 18, 2020*
+
+##### Steps
+
+1. In a method that is annotated with `@RequestMapping` in a controller class annotated with `@RestController`, add an argument whose type is `HttpServletResponse`.
+2. Use following to create cookies:
+
+```java
+final Cookie cookie = new Cookie("YOUR-COOKIE-KEY", "YOUR COOKIE-VALUE");
+```
+
+3. Use following to configure a cookie:
+
+```java
+cookie.setMaxAge(60 * 60 * 24 * 365 * 10); // 10 years
+cookie.setSecure(false);
+cookie.setHttpOnly(true);
+cookie.setPath("/");
+```
+
+4. Use following to add it to the response, so that the client knows it needs to write a cookie:
+
+```java
+httpServletResponse.addCookie(cookie);
+```
+
+##### Verification
+
+Make a call to your api through browser, and then check cookie (you can use EditThisCookie extension for Chrome for example).
