@@ -12,23 +12,23 @@ Hope this could help with those who are new to Java based web services and relat
 
 ## Table of Contents
 
-1. [Spring Boot](/lupuswere/SpringDemoService#1-spring-boot)
-2. GET a String response
-3. GET a JSON response
-4. Introduce ObjectMapper and Lombok
-5. Use Spring Autowire
-6. Variable in REST Path
-7. Enhance ObjectMapper
-8. Add log
-9. POST
-10. Parsing POST body
-11. Reading request header
-12. Reading request cookie
-13. Writing cookies
-14. Return HTML pages
-15. Don't cache page
-16. Redirect
-17. Integrate with MySQL
+1. [Spring Boot](https://github.com/lupuswere/SpringDemoService#1-spring-boot)
+2. [GET a String response](https://github.com/lupuswere/SpringDemoService#2-get-a-string-response)
+3. [GET a JSON response](https://github.com/lupuswere/SpringDemoService#3-get-a-json-response)
+4. [Introduce ObjectMapper and Lombok](https://github.com/lupuswere/SpringDemoService#4-introduce-objectmapper-and-lombok)
+5. [Use Spring Autowire](https://github.com/lupuswere/SpringDemoService#5-use-spring-autowire)
+6. [Variable in REST Path](https://github.com/lupuswere/SpringDemoService#6-variable-in-rest-path)
+7. [Enhance ObjectMapper](https://github.com/lupuswere/SpringDemoService#7-enhance-objectmapper)
+8. [Add log](https://github.com/lupuswere/SpringDemoService#8-add-log)
+9. [POST](https://github.com/lupuswere/SpringDemoService#9-post)
+10. [Parsing POST body](https://github.com/lupuswere/SpringDemoService#10-parsing-post-body)
+11. [Reading request header](https://github.com/lupuswere/SpringDemoService#11-reading-request-header)
+12. [Reading request cookie](https://github.com/lupuswere/SpringDemoService#12-reading-request-cookie)
+13. [Writing cookies](https://github.com/lupuswere/SpringDemoService#13-writing-cookies)
+14. [Return HTML pages](https://github.com/lupuswere/SpringDemoService#14-return-html-pages)
+15. [Don't cache page](https://github.com/lupuswere/SpringDemoService#15-dont-cache-page)
+16. [Redirect](https://github.com/lupuswere/SpringDemoService#16-redirect)
+17. [Integrate with MySQL](https://github.com/lupuswere/SpringDemoService#17-integrate-with-mysql)
 
 ## Features
 
