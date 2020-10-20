@@ -26,6 +26,7 @@ Hope this could help with those who are new to Java based web services and relat
 12. Reading request cookie
 13. Writing cookies
 14. Return HTML pages
+15. Don't cache page
 
 ## Features
 
@@ -379,4 +380,20 @@ Make a call to your api through browser, and then check cookie (you can use Edit
 3. Annotate it with `@Controller`.
 4. Create a method that returns a `String`.
 5. Annotate it with necessary `@GetMapping` or `@RequestMapping`.
-6. Return the html file name. For example, the file name is `index.html`, you should return `"index.html"`. Do not leave out `html`. 
+6. Return the html file name. For example, the file name is `index.html`, you should return `"index.html"`. Do not leave out `html`.
+
+#### 15. Don't cache page
+
+*Added Oct 19, 2020*
+
+##### Steps
+
+1. Add `HttpServletResponse` into the method.
+2. Use this to tell the web browser not to cache the page:
+
+```java
+// Set standard HTTP/1.1 no-cache headers.
+httpServletResponse.setHeader("Cache-Control", "private, no-store, no-cache, must-revalidate");
+// Set standard HTTP/1.0 no-cache header.
+httpServletResponse.setHeader("Pragma", "no-cache");
+```
