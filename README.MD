@@ -12,7 +12,7 @@ Hope this could help with those who are new to Java based web services and relat
 
 ## Table of Contents
 
-1. Spring Boot
+1. [Spring Boot](/lupuswere/SpringDemoService#1-spring-boot)
 2. GET a String response
 3. GET a JSON response
 4. Introduce ObjectMapper and Lombok
