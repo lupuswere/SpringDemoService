@@ -27,6 +27,7 @@ Hope this could help with those who are new to Java based web services and relat
 13. Writing cookies
 14. Return HTML pages
 15. Don't cache page
+16. Redirect
 
 ## Features
 
@@ -397,3 +398,12 @@ httpServletResponse.setHeader("Cache-Control", "private, no-store, no-cache, mus
 // Set standard HTTP/1.0 no-cache header.
 httpServletResponse.setHeader("Pragma", "no-cache");
 ```
+
+#### 16. Redirect 
+
+*Added Oct 19, 2020*
+
+##### Steps
+
+1. Add `HttpServletResponse` as a method argument.
+2. Call `response.sendRedirect("/path");`. Make sure it is the last statement.
