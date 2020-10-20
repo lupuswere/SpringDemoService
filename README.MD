@@ -28,6 +28,7 @@ Hope this could help with those who are new to Java based web services and relat
 14. Return HTML pages
 15. Don't cache page
 16. Redirect
+17. Integrate with MySQL
 
 ## Features
 
@@ -407,3 +408,83 @@ httpServletResponse.setHeader("Pragma", "no-cache");
 
 1. Add `HttpServletResponse` as a method argument.
 2. Call `response.sendRedirect("/path");`. Make sure it is the last statement.
+
+#### 17. Integrate with MySQL
+
+*Added Oct 19, 2020*
+
+##### Steps
+
+1. Do necessary setup for MySQL. e.g. install XAMPP on macOS.
+2. There are couple of posts that might be useful to you:
+    * https://stackoverflow.com/questions/8838777/error-1044-42000-access-denied-for-user-localhost-to-database-db
+    * https://stackoverflow.com/questions/41645309/mysql-error-access-denied-for-user-rootlocalhost
+3. Execute following when you connect:
+```sql
+FLUSH PRIVILEGES;
+CREATE DATABASE your_database_name;
+```
+4. Execute to create your table:
+```sql
+DROP TABLE IF EXISTS your_database_name.your_table_name;
+CREATE TABLE demo.your_table_name
+(
+    id smallint unsigned NOT NULL auto_increment,
+    someProperty text NOT NULL,
+    PRIMARY KEY (id)
+);
+```
+5. Now you have MySQL set up. You need to connect to MySQL through JDBC. Add following to your `pom.xml`:
+```xml
+<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.21</version>
+</dependency>
+```
+6. In your data access layer, use `MysqlDataSource`. Configure it as following:
+```java
+final MysqlDataSource mysqlDataSource = new MysqlDataSource();
+mysqlDataSource.setServerName("your_sql_server_name");
+mysqlDataSource.setDatabaseName("your_database_name");
+mysqlDataSource.setUser("your_user_name");
+mysqlDataSource.setPassword("your_password");
+try {
+    mysqlDataSource.setServerTimezone("UTC");
+} catch (final SQLException e) {
+    throw new IllegalStateException(e);
+}
+```
+7. To compose a query, do following. DO NOT use `Statement` because it has risk of SQL injection. Instead, use `PreparedStatement`.
+```java
+final Connection connection = mysqlDataSource.getConnection();
+final PreparedStatement statement = connection.prepareStatement(query);
+```
+8. Create your query template. Use question mark `?` to represent the value to be filled in at runtime. For example:
+```java
+final String query = "SELECT * FROM your_database_name.your_table_name WHERE your_column_name=?";
+```
+9. Fill in your query template at runtime, different types have different methods. For example, `TEXT` type uses `setString()` while `int` uses `setInt()`. NOTE that SQL column index starts at 1, not 0.
+```java
+statement.setInt(1, id);
+```
+10. Execute your query and catch the result:
+```java
+final ResultSet resultSet = statement.executeQuery();
+```
+11. For table update, use:
+```java
+statement.executeUpdate();
+```
+12. `ResultSet` is an emunerable interface so you need to call `next()` every time you try to get a result. Call `next()` then use `get()` for results:
+```java
+resultSet.getString(1);
+```
+13. Make sure you close everything:
+```java
+resultSet.close();
+statement.close();
+connection.close();
+```
+
