@@ -8,6 +8,7 @@ import lombok.Singular;
 import lombok.extern.slf4j.Slf4j;
 
 import net.lilifei.SpringDemoService.model.Record;
+import net.lilifei.SpringDemoService.storage.RecordStorage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,18 +22,20 @@ import java.util.UUID;
 
 @Builder
 @Slf4j
-public class MysqlRecordStorage {
+public class MysqlRecordStorage implements RecordStorage {
 
     private MysqlDataSource mysqlDataSource;
 
     @Singular
     private Map<Class, ModelMapper> modelMappers;
 
+    @Override
     public List<Record> getRecords() {
         final String query = "SELECT * FROM demo.records";
         return executeQuery(query, Collections.emptyList(), Record.class);
     }
 
+    @Override
     public Record getRecordById(final String id) {
         final String query = "SELECT * FROM demo.records WHERE recordId=?";
         final List<Record> records = executeQuery(query, ImmutableList.of(id), Record.class);
@@ -43,6 +46,7 @@ public class MysqlRecordStorage {
         }
     }
 
+    @Override
     public String createRecord(final Record record) {
         final String recordId = UUID.randomUUID().toString();
         final String query = "INSERT INTO demo.records(recordId, someProperty) VALUES(?, ?)";
@@ -50,11 +54,13 @@ public class MysqlRecordStorage {
         return recordId;
     }
 
+    @Override
     public void deleteRecordById(final String id) {
         final String query = "DELETE FROM demo.records WHERE recordId=?";
         executeQuery(query, ImmutableList.of(id), null);
     }
 
+    @Override
     public void updateRecordById(final Record record, final String id) {
         final String query = "UPDATE demo.records SET someProperty=? WHERE recordId=?";
         executeQuery(query, ImmutableList.of(record.getSomeProperty(), id), null);

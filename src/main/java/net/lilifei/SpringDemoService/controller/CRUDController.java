@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.lilifei.SpringDemoService.model.CreateRecordRequest;
 import net.lilifei.SpringDemoService.model.CreateRecordResponse;
 import net.lilifei.SpringDemoService.model.Record;
-import net.lilifei.SpringDemoService.mysql.MysqlRecordStorage;
+import net.lilifei.SpringDemoService.storage.RecordStorage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,14 +26,14 @@ import java.util.List;
 @Slf4j
 public class CRUDController {
 
-    private MysqlRecordStorage mysqlRecordStorage;
+    private RecordStorage recordStorage;
 
     private ObjectMapper objectMapper;
 
     @Autowired
-    public CRUDController(final MysqlRecordStorage mysqlRecordStorage,
+    public CRUDController(final RecordStorage recordStorage,
                           final ObjectMapper objectMapper) {
-        this.mysqlRecordStorage = mysqlRecordStorage;
+        this.recordStorage = recordStorage;
         this.objectMapper = objectMapper;
     }
 
@@ -45,13 +45,13 @@ public class CRUDController {
 
     @RequestMapping(value = "/api/records", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRecords() {
-        final List<Record> records = mysqlRecordStorage.getRecords();
+        final List<Record> records = recordStorage.getRecords();
         return new ResponseEntity<>(writeValueAsString(records), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/api/records/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRecordById(@PathVariable("id") final String id) {
-        final Record record = mysqlRecordStorage.getRecordById(id);
+        final Record record = recordStorage.getRecordById(id);
         return new ResponseEntity<>(record == null ? "{}" : writeValueAsString(record), HttpStatus.OK);
     }
 
@@ -62,7 +62,7 @@ public class CRUDController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<?> createRecord(@RequestBody final CreateRecordRequest createRecordRequest) {
-        final String id = mysqlRecordStorage.createRecord(Record.builder()
+        final String id = recordStorage.createRecord(Record.builder()
                 .someProperty(createRecordRequest.getSomeProperty())
                 .build());
         final CreateRecordResponse createRecordResponse = CreateRecordResponse.builder()
@@ -79,7 +79,7 @@ public class CRUDController {
     )
     public ResponseEntity<?> updateRecord(@PathVariable("id") final String id,
                                           @RequestBody final CreateRecordRequest createRecordRequest) {
-        mysqlRecordStorage.updateRecordById(Record.builder()
+        recordStorage.updateRecordById(Record.builder()
                 .someProperty(createRecordRequest.getSomeProperty())
                 .build(), id);
         return new ResponseEntity<>("{}", HttpStatus.OK);
@@ -91,7 +91,7 @@ public class CRUDController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<?> deleteRecord(@PathVariable("id") final String id) {
-        mysqlRecordStorage.deleteRecordById(id);
+        recordStorage.deleteRecordById(id);
         return new ResponseEntity<>("{}", HttpStatus.OK);
     }
 

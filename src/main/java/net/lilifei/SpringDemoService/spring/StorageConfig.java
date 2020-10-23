@@ -5,6 +5,7 @@ import com.mysql.cj.jdbc.MysqlDataSource;
 import net.lilifei.SpringDemoService.model.Record;
 import net.lilifei.SpringDemoService.mysql.MysqlRecordStorage;
 import net.lilifei.SpringDemoService.mysql.RecordModelMapper;
+import net.lilifei.SpringDemoService.storage.RecordStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +32,7 @@ public class StorageConfig {
 
     @Bean
     @Autowired
-    MysqlRecordStorage mysqlRecordStorage(final MysqlDataSource mysqlDataSource) {
+    RecordStorage recordStorage(final MysqlDataSource mysqlDataSource) {
         return MysqlRecordStorage.builder()
                 .mysqlDataSource(mysqlDataSource)
                 .modelMapper(Record.class, new RecordModelMapper())
