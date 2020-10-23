@@ -5,9 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Record {
+public class CreateRecordResponse {
 
     private String recordId;
-
-    private String someProperty;
 }

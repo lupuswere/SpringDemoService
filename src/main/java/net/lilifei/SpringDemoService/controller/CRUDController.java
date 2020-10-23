@@ -4,8 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
+
 import net.lilifei.SpringDemoService.model.CreateRecordRequest;
+import net.lilifei.SpringDemoService.model.CreateRecordResponse;
 import net.lilifei.SpringDemoService.model.Record;
+import net.lilifei.SpringDemoService.mysql.MysqlRecordStorage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,29 +20,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @Slf4j
 public class CRUDController {
 
+    private MysqlRecordStorage mysqlRecordStorage;
+
     private ObjectMapper objectMapper;
 
     @Autowired
-    public CRUDController(final ObjectMapper objectMapper) {
+    public CRUDController(final MysqlRecordStorage mysqlRecordStorage,
+                          final ObjectMapper objectMapper) {
+        this.mysqlRecordStorage = mysqlRecordStorage;
         this.objectMapper = objectMapper;
+    }
+
+    @RequestMapping(value = "/api/empty", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getEmptyJson() {
+        // Response can be anything as long as it is a JSON String.
+        return new ResponseEntity<>("{}", HttpStatus.OK);
     }
 
     @RequestMapping(value = "/api/records", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRecords() {
-        // Response can be anything as long as it is a JSON String.
-        final String response = getResponseJsonString("foobar");
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        final List<Record> records = mysqlRecordStorage.getRecords();
+        return new ResponseEntity<>(writeValueAsString(records), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/api/records/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRecordById(@PathVariable("id") final String id) {
-        // Response can be anything as long as it is a JSON String.
-        final String response = getResponseJsonString(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        final Record record = mysqlRecordStorage.getRecordById(id);
+        return new ResponseEntity<>(record == null ? "{}" : writeValueAsString(record), HttpStatus.OK);
     }
 
     @RequestMapping(
@@ -49,20 +62,44 @@ public class CRUDController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<?> createRecord(@RequestBody final CreateRecordRequest createRecordRequest) {
-        log.info("{}", createRecordRequest.toString());
+        final String id = mysqlRecordStorage.createRecord(Record.builder()
+                .someProperty(createRecordRequest.getSomeProperty())
+                .build());
+        final CreateRecordResponse createRecordResponse = CreateRecordResponse.builder()
+                .recordId(id)
+                .build();
+        return new ResponseEntity<>(writeValueAsString(createRecordResponse), HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value = "/api/records/{id}",
+            method = RequestMethod.PUT,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<?> updateRecord(@PathVariable("id") final String id,
+                                          @RequestBody final CreateRecordRequest createRecordRequest) {
+        mysqlRecordStorage.updateRecordById(Record.builder()
+                .someProperty(createRecordRequest.getSomeProperty())
+                .build(), id);
         return new ResponseEntity<>("{}", HttpStatus.OK);
     }
 
-    private String getResponseJsonString(final String value) {
-        final Record record = Record.builder()
-                .someProperty(value)
-                .build();
-        final String response;
+    @RequestMapping(
+            value = "/api/records/{id}",
+            method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<?> deleteRecord(@PathVariable("id") final String id) {
+        mysqlRecordStorage.deleteRecordById(id);
+        return new ResponseEntity<>("{}", HttpStatus.OK);
+    }
+
+    private String writeValueAsString(final Object value) {
         try {
-            response = objectMapper.writeValueAsString(record);
+            return objectMapper.writeValueAsString(value);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        return response;
     }
 }

@@ -11,7 +11,7 @@ public class CreateRecordRequest {
     private String someProperty;
 
     @JsonCreator
-    public CreateRecordRequest(@JsonProperty("property") final String property) {
+    public CreateRecordRequest(@JsonProperty("someProperty") final String property) {
         this.someProperty = property;
     }
 }
